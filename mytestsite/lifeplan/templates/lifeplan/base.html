@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Sneakers Shop</title>
+  <link type = "text/css" href="{% static 'lifeplan/css/anothercss.css' %}" rel = "stylesheet"/>
+</head>
+<body>
+  <header class="main-header">
+    <nav class="navbar">
+      <ul>
+        <li><a>Logo</a></li>
+        <li><a href="{% url 'base'%}">Home</a></li>
+        <li><a>Help</a></li>
+        <li><a href="{% url 'contact'%}">Contact</a></li>
+        <li class="last"><a>Sign Up</a> | <a>Log In</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<main>
+  <nav class="navbar-left">
+    <div>
+      <ul>
+        <li><a>All categories</a></li>
+        <li><a>Nike</a></li>
+        <li><a>Adidas</a></li>
+        <li><a>Puma</a></li>
+        <li><a>Demix</a></li>
+      </ul>
+    </div>
+  </nav>
+{% block content%}
+{% endblock %}
+  <footer class="footer">
+    <div class="page-footer_container">
+      <div class="page-footer-row">
+        <div class="page-footer-left">
+          <h1 class="footer-left-header">Our rules</h1>
+          <ul>
+            <li>Be strong</li>
+            <li>Be brave</li>
+            <li>Be gay</li>
+          </ul>
+        </div>
+        <div class="page-footer-right">
+          <h1>Our sites</h1>
+          <ul>
+            <li>inst</li>
+            <li>teleg</li>
+            <li>VK</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+</body>
+
+</html>
