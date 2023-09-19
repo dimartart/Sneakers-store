@@ -9,10 +9,12 @@ class Item(models.Model):
     model_name = models.CharField(max_length=255)
     size = models.IntegerField()
     photo = models.ImageField(upload_to="photo/%Y/%m/%d/")
-    order_id = models.ForeignKey('Order',on_delete=models.PROTECT)
+    order = models.ForeignKey('Order',on_delete=models.PROTECT)
+    category = models.ForeignKey('Category', on_delete=models.PROTECT)
 
 class Order(models.Model):
     items_amount = models.IntegerField()
     is_paid = models.BooleanField()
-    user_id = models.ForeignKey('User', on_delete=models.PROTECT)
+    client_username = models.CharField(max_length=255)
+    client_mail = models.CharField(max_length=255)
 
