@@ -3,7 +3,9 @@ from django.shortcuts import render
 
 from .models import *
 
-menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
+menu = [{'title': "Contact", 'url_name': 'contact'},
+        {'title': "Help page", 'url_name': 'help'}
+]
 
 # Create your views here.
 def base(request):
@@ -11,3 +13,6 @@ def base(request):
 
 def contact(request):
     return render(request, 'lifeplan/contact.html')
+
+def help(request):
+    return render(request, 'lifeplan/help.html')
