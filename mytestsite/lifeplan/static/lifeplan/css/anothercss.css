@@ -11,10 +11,19 @@ html,body{
 }
 
 .navbar {
+    display:flex;
     height: 70px;
 }
 
+.navbar-logo {
+    display:block;
+	width: 100px;
+	height: 90px;
+	padding: 0px 0px 0px 10px;
+}
+
 .navbar ul {
+    flex-grow:1;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -33,10 +42,42 @@ html,body{
     float:right;
 }
 
+.navbar ul li a{
+    color: #fff;
+}
+
+.navbar ul li a:link{
+    text-decoration: none;
+}
+
 .navbar ul li a:hover{
     color: #FDA83D;
-    }
+}
 
+.main-menu{
+    display:flex;
+}
+
+img.img-product {
+	max-width: 200px;
+	height: 200px;
+}
+
+.main-container{
+    overflow:auto;
+}
+
+.main-content{
+    display: flex;
+    flex-wrap:wrap;
+    padding: 100px 100px 100px 100px;
+}
+
+div.product {
+    padding: 20px;
+    margin: 1%;
+    width: 23%;
+}
 
 .navbar-left {
     min-height:100vh;

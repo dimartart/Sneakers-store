@@ -8,32 +8,43 @@
 <body>
   <header class="main-header">
     <nav class="navbar">
+      <a href="{% url 'base'%}"><img class="navbar-logo" alt="Logo" src="{% static 'lifeplan\images\logo.png' %}"></img></a>
       <ul>
-        <li><a>Logo</a></li>
-        <li><a href="{% url 'base'%}">Home</a></li>
-        <li><a>Help</a></li>
-        <li><a href="{% url 'contact'%}">Contact</a></li>
-        <li class="last"><a>Sign Up</a> | <a>Log In</a></li>
+      {% for menu_item in menu %}
+        <li><a href="{% url menu_item.url_name %}">{{ menu_item.title }}</a></li>
+      {% endfor %}
+        <li class="last"><a href="#">Sign Up</a></li>
+        <li class="last"><a href="#">Log In</a></li>
       </ul>
     </nav>
   </header>
 
-<main>
-  <nav class="navbar-left">
-    <div>
-      <ul>
-        <li><a>All categories</a></li>
-        <li><a>Nike</a></li>
-        <li><a>Adidas</a></li>
-        <li><a>Puma</a></li>
-        <li><a>Demix</a></li>
-      </ul>
+  <main class="main-menu">
+    <nav class="navbar-left">
+      <div>
+        <ul>
+          <li><a>All categories</a></li>
+          {% for category in categories %}
+          <li><a>{{ category.brand }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+    <div class="main-container">
+      <div class="main-content">
+        {% block content %}
+        {% for product in products %}
+          <div class="product">
+            <a>{{ product.model_name }}</a>
+            <p><img class="img-product" src="{{ product.photo.url }}"></img></p>
+            <button><a href="{{ product.get_absolute_url }}">More</a></button>
+          </div>
+        {% endfor%}
+        {% endblock %}
+      </div>
     </div>
-  </nav>
-  <div>
-    {% block content%}
-    {% endblock %}
-  </div>
+  </main>
+
   <footer class="footer">
     <div class="page-footer_container">
       <div class="page-footer-row">
@@ -56,7 +67,6 @@
       </div>
     </div>
   </footer>
-</main>
 </body>
 
 </html>

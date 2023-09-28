@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -18,11 +19,14 @@ class Product(models.Model):
     def __str__(self):
         return self.model_name
 
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'product_id': self.pk})
+
 
 class Supply(models.Model):
-    size = models.IntegerField(max_length=3)
-    price = models.DecimalField(max_digits=10, decimal_places=2 )
-    amount = models.IntegerField(max_length=4)
+    size = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.IntegerField()
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
 
     def __str__(self):
