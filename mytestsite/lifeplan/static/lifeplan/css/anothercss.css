@@ -27,7 +27,7 @@ html,body{
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	height: 60px;
+	height: 100%;
 	color: #fff;
 	font-size: 20px;
 	overflow: hidden;
@@ -40,6 +40,13 @@ html,body{
 
 .navbar ul li.last {
     float:right;
+}
+
+.navbar-cart-icon {
+    float: right;
+	width: 40px;
+	height: 30px;
+	margin: 17px 15px 10px 10px;
 }
 
 .navbar ul li a{
@@ -64,19 +71,52 @@ img.img-product {
 }
 
 .main-container{
+    flex-grow: 1;
     overflow:auto;
 }
 
 .main-content{
     display: flex;
     flex-wrap:wrap;
-    padding: 100px 100px 100px 100px;
+    padding: 100px 0px 100px 100px;
 }
 
 div.product {
+    text-align: center;
     padding: 20px;
     margin: 1%;
-    width: 23%;
+    width: 18%;
+}
+
+a.product-name{
+    display:block;
+    font-size: 20px;
+    height: 57px;
+}
+
+button {
+    border-bottom-style: solid;
+    border-width: 2px;
+    width: 50%;
+    min-width: 100px;
+    margin: 15px 25% 0px 25%;
+    height: auto;
+    padding: 3px;
+}
+
+button a {
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: normal;
+}
+
+button a:link {
+    text-decoration: none;
 }
 
 .navbar-left {
@@ -99,8 +139,21 @@ div.product {
     list-style: none;
     font-size: 20px;
 }
+
 .navbar-left div ul li {
     margin: 30px 0 0 0;
+}
+
+.navbar-left div ul li a{
+    color:#000;
+}
+
+.navbar-left div ul li a.selected{
+    color: #e03a14;
+}
+
+.navbar-left div ul li a:link{
+    text-decoration: none;
 }
 
 .navbar-left div ul a:hover{
@@ -163,3 +216,6 @@ div.product {
     margin: 20px 0 0 0;
     color:#fff;
 }
+
+
+

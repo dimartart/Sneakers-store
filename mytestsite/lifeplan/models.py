@@ -5,13 +5,18 @@ from django.urls import reverse
 
 class Category(models.Model):
     brand = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, verbose_name="URL", db_index=True, blank=True, unique=True)
 
     def __str__(self):
         return self.brand
 
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'category_slug': self.slug})
+
 
 class Product(models.Model):
     model_name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, verbose_name="URL", db_index=True, blank=True, unique=True)
     description = models.TextField(blank=True)
     photo = models.ImageField(upload_to="photo/%Y/%m/%d/")
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
@@ -20,7 +25,7 @@ class Product(models.Model):
         return self.model_name
 
     def get_absolute_url(self):
-        return reverse('product', kwargs={'product_id': self.pk})
+        return reverse('product', kwargs={'product_slug': self.slug})
 
 
 class Supply(models.Model):
@@ -45,3 +50,4 @@ class Order(models.Model):
 class ProductInOrder(models.Model):
     order = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.PROTECT)
+

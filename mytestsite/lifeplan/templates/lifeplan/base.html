@@ -1,9 +1,11 @@
 {% load static %}
+{% load shop_tags %}
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Sneakers Shop</title>
+  <title>{{title}}</title>
   <link type = "text/css" href="{% static 'lifeplan/css/anothercss.css' %}" rel = "stylesheet"/>
+  <link rel="icon" type="image/x-icon" href="{% static 'lifeplan\images\sneakers.png' %}">
 </head>
 <body>
   <header class="main-header">
@@ -13,8 +15,9 @@
       {% for menu_item in menu %}
         <li><a href="{% url menu_item.url_name %}">{{ menu_item.title }}</a></li>
       {% endfor %}
-        <li class="last"><a href="#">Sign Up</a></li>
-        <li class="last"><a href="#">Log In</a></li>
+        <li class="last"><a href="{% url 'registration' %}">Sign Up</a></li>
+        <li class="last"><a href="{% url 'login' %}">Log In</a></li>
+        <a href="{% url 'cart'%}"><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\add-to-cart.png' %}"></img></a>
       </ul>
     </nav>
   </header>
@@ -23,10 +26,12 @@
     <nav class="navbar-left">
       <div>
         <ul>
-          <li><a>All categories</a></li>
-          {% for category in categories %}
-          <li><a>{{ category.brand }}</a></li>
-          {% endfor %}
+          {% if selected_category == 0 %}
+          <li><a class="selected">All categories</a></li>
+          {% else %}
+          <li><a href="{% url 'base' %}">All categories</a></li>
+          {% endif %}
+          {% show_categories selected_category %}
         </ul>
       </div>
     </nav>
@@ -35,8 +40,8 @@
         {% block content %}
         {% for product in products %}
           <div class="product">
-            <a>{{ product.model_name }}</a>
-            <p><img class="img-product" src="{{ product.photo.url }}"></img></p>
+            <a class="product-name">{{ product.model_name }}</a>
+            <img class="img-product" src="{{ product.photo.url }}"></img>
             <button><a href="{{ product.get_absolute_url }}">More</a></button>
           </div>
         {% endfor%}
