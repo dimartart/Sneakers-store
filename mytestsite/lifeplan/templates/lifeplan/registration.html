@@ -1,0 +1,37 @@
+{% extends 'lifeplan/base.html'%}
+{% block content %}
+
+<div class="registration-container">
+    <form method="post" class="registration-form">
+        {% csrf_token %}
+       <p>
+        <label for="id_username">Enter your username:</label>
+       </p>
+        <input class="input" type="text" name="username"  maxlength="150" autofocus required id="id_username">
+       <p>
+        <label for="id_password1">Password:</label>
+       </p>
+       <p>
+        <input class="input" type="password" name="password1" autocomplete="new-password" required id="id_password1">
+       </p>
+       <p>
+        <label for="id_password2">Password confirmation:</label>
+       </p>
+       <p>
+        <input class="input" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+      </p>
+        <button type="submit">Registrate</button>
+        {% for f in form %}
+          <div class="errors-block">
+            {% if f.errors %}
+              <ul class="errorlist">
+                {% for error in f.errors %}
+                  <li>*{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}

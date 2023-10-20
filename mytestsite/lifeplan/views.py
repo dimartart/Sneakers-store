@@ -1,9 +1,11 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
+from .forms import RegisterUserForm
 from .models import *
 from .utils import DataMixin
 menu = [{'title': "Home", 'url_name': 'base'},
@@ -79,9 +81,9 @@ class SneakersCategory(DataMixin, ListView):
 
 
 class RegisterUser(DataMixin, CreateView):
-    form_class = UserCreationForm
+    form_class = RegisterUserForm
     template_name = 'lifeplan/registration.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('base')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -89,7 +91,14 @@ class RegisterUser(DataMixin, CreateView):
         return dict(list(context.items()) + list(mixin_context.items()))
 
 
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'lifeplan/login.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mixin_context = self.get_user_context(title="Log In")
+        return dict(list(context.items()) + list(mixin_context.items()))
 #
 # def show_category(request, category_slug):
 #     products = Product.objects.filter(category__slug=category_slug)

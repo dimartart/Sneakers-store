@@ -217,5 +217,45 @@ button a:link {
     color:#fff;
 }
 
+.registration-form {
+    margin: 50px 0px 0px 0px;
+    align-items: center;
+    text-align:center;
+}
 
+label {
+    color: black;
+}
 
+.input {
+    position: relative;
+    padding: 0.7em;
+    background: #fff;
+    box-shadow: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 150px;
+    height: 20px;
+}
+
+.registration-container {
+    min-width: 500px;
+    border-radius: 10px;
+    background-color: #d1dae8;
+    height: 500px;
+    margin: 0% 20% 0px 25%;
+}
+
+.errorlist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #eb300c;
+	font-size: 15px;
+	overflow: hidden;
+}
+
+.errors-block{
+    margin: 25px 0px 0px 0px;
+    }

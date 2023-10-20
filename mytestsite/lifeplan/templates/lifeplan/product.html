@@ -1,0 +1,12 @@
+{% extends 'lifeplan/base.html'%}
+{% load static %}
+
+{% block content %}
+<div>
+    <h1>{{ product.model_name }}</h1>
+    <img class="img-product" src="{{ product.photo.url }}"></img>
+    <p>{{ product.description }}</p>
+    <a><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\add.png' %}"></img></a>
+    <a><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\delete.png' %}"></img></a>
+</div>
+{% endblock%}
