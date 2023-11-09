@@ -1,8 +1,21 @@
 {% extends 'lifeplan/base.html'%}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
+<div class="registration-container">
+    <form method="post" class="registration-form">
+        {% csrf_token %}
+        <p>
+            <label for="id_username">Login:</label>
+        </p>
+        <p>
+            <input type="text" name="username" class="input" maxlength="150" required id="id_username">
+        </p>
+        <p>
+            <label for="id_password">Password:</label>
+        </p>
+        <p>
+            <input type="password" name="password" class="input" required id="id_password">
+        </p>
+        <button type="submit">Log In</button>
+    </form>
+</div>
 {% endblock%}

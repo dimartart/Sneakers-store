@@ -2,11 +2,71 @@
 {% load static %}
 
 {% block content %}
-<div>
-    <h1>{{ product.model_name }}</h1>
-    <img class="img-product" src="{{ product.photo.url }}"></img>
-    <p>{{ product.description }}</p>
-    <a><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\add.png' %}"></img></a>
-    <a><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\delete.png' %}"></img></a>
+{% csrf_token %}
+<div class="product-page">
+    <div class="img-product-container">
+        <img class="img-product-page" src="{{ product.photo.url }}"></img>
+    </div>
+
+    <div class="product-description">
+        <div class="centered"><h1 class="h1-centered">{{ product.model_name }}</h1></div>
+        <div class="centered-d"><p>{{ product.description }}</p></div>
+        <div class="centered-size"><p>Size</p></div>
+        <div class="centered-s">
+        {% for item in storage_info %}
+            <input type="radio" name="size" value="{{ item.size }}">
+            <span class="centered-s-i">{{ item.size }}</span>
+        {% endfor %}
+        </div>
+        <div class="centered-p">
+
+            <div class="final-price"><a>{{ product.price }} kč</a></div>
+
+            <button type="button" id="addToCartButton">Add to cart</button><br>
+        </div>
+
+        <div id="responseContainer"></div>
+
+        <script>
+            $(document).ready(function() {
+                $('#addToCartButton').click(function() {
+                    var selectedSize = $('input[name="size"]:checked').val();
+                    if (selectedSize) {
+                        var model_name = "{{ product.model_name }}";
+                        sendDataToServer(selectedSize, model_name);
+                    } else {
+                        document.getElementById("responseContainer").innerHTML = "Please, choose the size";
+                    }
+                });
+            });
+
+            function sendDataToServer(size, model_name) {
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: '{% url 'handle_ajax_request' %}',
+                    type: 'POST',
+                    headers: {'X-CSRFToken': csrftoken},
+                    data: {'size': size, 'model_name': model_name},
+                    success: function(data) {
+                        $('#responseContainer').html(data.message);
+                    }
+                });
+            }
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        </script>
+    </div>
 </div>
 {% endblock%}

@@ -26,7 +26,7 @@
             {% if f.errors %}
               <ul class="errorlist">
                 {% for error in f.errors %}
-                  <li>*{{ error }}</li>
+                  <li>{{ error }}</li>
                 {% endfor %}
               </ul>
             {% endif %}

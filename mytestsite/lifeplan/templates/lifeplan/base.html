@@ -6,6 +6,8 @@
   <title>{{title}}</title>
   <link type = "text/css" href="{% static 'lifeplan/css/anothercss.css' %}" rel = "stylesheet"/>
   <link rel="icon" type="image/x-icon" href="{% static 'lifeplan\images\sneakers.png' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <header class="main-header">
@@ -15,8 +17,13 @@
       {% for menu_item in menu %}
         <li><a href="{% url menu_item.url_name %}">{{ menu_item.title }}</a></li>
       {% endfor %}
-        <li class="last"><a href="{% url 'registration' %}">Sign Up</a></li>
-        <li class="last"><a href="{% url 'login' %}">Log In</a></li>
+        {% if request.user.is_authenticated %}
+          <li class="last"><a></a> <a href="{% url 'logout' %}">Log Out</a></li>
+          <a href="{% url 'user'%}"><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\user.png' %}"></img></a>
+        {% else %}
+          <li class="last"><a href="{% url 'registration' %}">Sign Up</a></li>
+          <li class="last"><a href="{% url 'login' %}">Log In</a></li>
+        {% endif %}
         <a href="{% url 'cart'%}"><img class="navbar-cart-icon" alt="Logo" src="{% static 'lifeplan\images\add-to-cart.png' %}"></img></a>
       </ul>
     </nav>
@@ -42,7 +49,7 @@
           <div class="product">
             <a class="product-name">{{ product.model_name }}</a>
             <img class="img-product" src="{{ product.photo.url }}"></img>
-            <button><a href="{{ product.get_absolute_url }}">More</a></button>
+            <a class="button-product" href="{{ product.get_absolute_url }}">More</a>
           </div>
         {% endfor%}
         {% endblock %}
@@ -58,7 +65,7 @@
           <ul>
             <li>Be strong</li>
             <li>Be brave</li>
-            <li>Be gay</li>
+            <li>Be cat</li>
           </ul>
         </div>
         <div class="page-footer-right">

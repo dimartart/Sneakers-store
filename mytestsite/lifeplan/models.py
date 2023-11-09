@@ -13,11 +13,15 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('category', kwargs={'category_slug': self.slug})
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Product(models.Model):
     model_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, verbose_name="URL", db_index=True, blank=True, unique=True)
     description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=None)
     photo = models.ImageField(upload_to="photo/%Y/%m/%d/")
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
 
@@ -28,14 +32,16 @@ class Product(models.Model):
         return reverse('product', kwargs={'product_slug': self.slug})
 
 
-class Supply(models.Model):
+class Storage(models.Model):
     size = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.product
+        return str(self.product) + " " + str(self.size) + " size"
+
+    class Meta:
+        verbose_name_plural = "Storage"
 
 
 class Order(models.Model):
@@ -51,3 +57,5 @@ class ProductInOrder(models.Model):
     order = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.PROTECT)
 
+    class Meta:
+        verbose_name_plural = "Products in orders"

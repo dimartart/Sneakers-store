@@ -78,7 +78,7 @@ img.img-product {
 .main-content{
     display: flex;
     flex-wrap:wrap;
-    padding: 100px 0px 100px 100px;
+    padding: 100px 100px 100px 100px;
 }
 
 div.product {
@@ -94,29 +94,17 @@ a.product-name{
     height: 57px;
 }
 
-button {
-    border-bottom-style: solid;
-    border-width: 2px;
-    width: 50%;
-    min-width: 100px;
-    margin: 15px 25% 0px 25%;
-    height: auto;
-    padding: 3px;
-}
-
-button a {
-    color: black;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 30px;
+a.button-product{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
     text-align: center;
     text-decoration: none;
-    text-transform: uppercase;
-    white-space: normal;
-}
-
-button a:link {
-    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 5px;
 }
 
 .navbar-left {
@@ -258,4 +246,95 @@ label {
 
 .errors-block{
     margin: 25px 0px 0px 0px;
-    }
+}
+
+.product-page{
+    display: flex;
+}
+
+.img-product-container{
+    height: 100%;
+}
+
+.img-product-page{
+    width: 400px;
+    height: 400px;
+}
+.product-description {
+    height: 100%;
+    margin: 0px 50px 0px 100px;
+}
+
+button a:link {
+    text-decoration: none;
+}
+
+.centered{
+    text-align: center;
+}
+
+.h1-centered {
+    position: relative;
+}
+
+
+.centered-d{
+
+}
+
+.centered-size{
+    color: #000;
+    font-size: 26px;
+    font-weight: 700;
+    width: 100%
+}
+
+.centered-s {
+    display: flex;
+}
+
+.centered-s-i{
+    margin: 0px 20px 0px 0px;
+    border-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    padding: 10px 20px 10px 20px;
+}
+
+.centered-p{
+    align-items: center;
+    border: 0 #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 30px 0px 0px 0px;
+}
+
+.final-price{
+    float:left;
+    font-size: 30px;
+}
+
+.add-to-cart{
+    height: 50px;
+    width: 150px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-to-cart:hover{
+    background-color: #414543;
+}
+
+.btn-add-to-cart {
+    color: white;
+    font-size: 23px;
+    font-family: 'Raleway', sans-serif;
+    cursor: pointer;
+}
+

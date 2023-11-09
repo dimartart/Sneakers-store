@@ -1,5 +1,18 @@
 {% extends 'lifeplan/base.html'%}
 
 {% block content %}
-Hii
+{% if not request.user.is_authenticated %}
+
+    {% if 'cart' in request.session %}
+        <h1>Your cart</h1>
+        <ul>
+            {% for item in request.session.cart %}
+                <li>{{ item.product }} - {{ item.size }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ваша корзина пуста.</p>
+    {% endif %}
+
+{% endif %}
 {% endblock %}
