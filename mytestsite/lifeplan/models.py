@@ -45,17 +45,21 @@ class Storage(models.Model):
 
 
 class Order(models.Model):
-    items_amount = models.IntegerField()
+    items_amount = models.IntegerField(default=0)
     is_paid = models.BooleanField(default=False)
     date_of_payment = models.DateTimeField(blank=True, null=True)
-    client_username = models.CharField(max_length=255)
-    client_mail = models.CharField(max_length=255)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    client_username = models.CharField(max_length=255, blank=True, null=True)
+    client_mail = models.CharField(max_length=255, default='', blank=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return f"order number №{self.pk}"
 
 
 class ProductInOrder(models.Model):
     order = models.ForeignKey(Order, blank=True, null=True, default=None, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, blank=True, null=True, default=None, on_delete=models.PROTECT)
+    size_of_product = models.IntegerField(blank=True, null=True, default=None)
 
     class Meta:
         verbose_name_plural = "Products in orders"

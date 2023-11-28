@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-{% csrf_token %}
 <div class="product-page">
     <div class="img-product-container">
         <img class="img-product-page" src="{{ product.photo.url }}"></img>
@@ -22,10 +21,9 @@
 
             <div class="final-price"><a>{{ product.price }} kč</a></div>
 
-            <button type="button" id="addToCartButton">Add to cart</button><br>
+            <button type="button" id="addToCartButton" class="add-to-cart">Add to cart</button><br>
         </div>
-
-        <div id="responseContainer"></div>
+        <div class="response-container"><p class="response-text" id="responseContainer"></p></div>
 
         <script>
             $(document).ready(function() {

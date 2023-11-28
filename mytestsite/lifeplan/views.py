@@ -77,6 +77,7 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
+        self.request.session['username'] = self.request.user.username
         return redirect('base')
 
 
@@ -88,6 +89,11 @@ class LoginUser(DataMixin, LoginView):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title="Log In")
         return dict(list(context.items()) + list(mixin_context.items()))
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.request.session['username'] = self.request.user.username
+        return response
 
     def get_success_url(self):
         return reverse_lazy('base')
@@ -127,6 +133,31 @@ def cart(request):
         'menu': menu,
         'title': 'Cart'
     }
+
+    if request.user.is_authenticated:
+        username = request.session.get('username')
+        user_order, created = Order.objects.get_or_create(client_username=username, is_paid=False)
+        try:
+            all_products_in_current_cart = [(object.product, object.size_of_product) for object in ProductInOrder.objects.filter(order=user_order)]
+            total_price = user_order.total_price
+            context['total_price'] = total_price
+            context["all_products_in_current_cart"] = all_products_in_current_cart
+        except:
+            pass
+    else:
+        try:
+            products_from_session = request.session['cart']
+            all_products_from_db = Product.objects.all()
+            l_prices = []
+            for dct in products_from_session:
+                dct['product'] = all_products_from_db.get(model_name=dct['model_name'])
+                l_prices.append(dct['product'].price)
+            context['total_price'] = sum(l_prices)
+            context['products_from_session'] = products_from_session
+            request.session.save()
+        except:
+            pass
+
     return render(request, 'lifeplan/cart.html', context=context)
 
 
@@ -136,16 +167,68 @@ def handle_ajax_request(request):
     data = {'message': f'Added to cart: {model_name}, Size: {size}'}
 
     if not request.user.is_authenticated:
+        product_dct = {'model_name': model_name, 'size': size}
         if 'cart' not in request.session:
             request.session['cart'] = []
         try:
-            product = Product.objects.get(model_name=model_name)
-            request.session['cart'].append({'product': product.model_name,
-                                            'size': size})
-            request.session.save()
+            if product_dct not in request.session['cart']:
+                request.session['cart'].append({'model_name': model_name,
+                                                'size': size})
+                request.session.save()
+            else:
+                data = {'message': 'This item is already in your cart'}
         except:
             data = {'message': 'Sorry, for some reason this item is not available'}
+
     else:
-        pass
+        username = request.session.get('username')
+        print(username)
+        user_order, created = Order.objects.get_or_create(client_username=username, is_paid=False)
+        product = Product.objects.get(model_name=model_name)
+        try:
+            ProductInOrder.objects.get(order=user_order, product=product, size_of_product=size)
+            data = {'message': 'This item is already in your cart'}
+
+        except:
+            user_order.total_price += product.price
+            user_order.items_amount += 1
+            user_order.save()
+            ProductInOrder.objects.create(order=user_order, product=product, size_of_product=size)
 
     return JsonResponse(data)
+
+
+def remove_from_cart(request):
+    product_unique_key = request.POST.get('product_unique_key')
+    model_name, size = product_unique_key.split('&')
+    if request.user.is_authenticated:
+        product = Product.objects.get(model_name=model_name)
+        username = request.session.get('username')
+        user_order = Order.objects.get(client_username=username, is_paid=False)
+
+        user_order.total_price -= product.price
+        user_order.items_amount -= 1
+        user_order.save()
+
+        product_in_cart = ProductInOrder.objects.get(order=user_order, product=product, size_of_product=size)
+        product_in_cart.delete()
+        total_price = user_order.total_price
+
+    else:
+        for dct in request.session['cart']:
+            values = dct.values()
+            if model_name in values and size in values:
+                request.session['cart'].remove(dct)
+                request.session.save()
+                break
+        total_price = get_total_price(request)
+    return JsonResponse({'message': f'{total_price} kc'})
+
+
+def get_total_price(request):
+    l_prices = []
+    for dct in request.session['cart']:
+        l_prices.append(Product.objects.get(model_name=dct['model_name']).price)
+    return sum(l_prices)
+
+

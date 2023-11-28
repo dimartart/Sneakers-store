@@ -227,7 +227,7 @@ label {
 }
 
 .registration-container {
-    min-width: 500px;
+    width: 500px;
     border-radius: 10px;
     background-color: #d1dae8;
     height: 500px;
@@ -242,6 +242,10 @@ label {
 	color: #eb300c;
 	font-size: 15px;
 	overflow: hidden;
+}
+
+.error-element{
+
 }
 
 .errors-block{
@@ -277,11 +281,6 @@ button a:link {
     position: relative;
 }
 
-
-.centered-d{
-
-}
-
 .centered-size{
     color: #000;
     font-size: 26px;
@@ -302,13 +301,7 @@ button a:link {
 }
 
 .centered-p{
-    align-items: center;
     border: 0 #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between;
     padding: 10px;
     margin: 30px 0px 0px 0px;
 }
@@ -319,22 +312,116 @@ button a:link {
 }
 
 .add-to-cart{
-    height: 50px;
-    width: 150px;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 30px;
+    width: 100px;
+    float: right;
 }
 
 .add-to-cart:hover{
-    background-color: #414543;
-}
-
-.btn-add-to-cart {
-    color: white;
-    font-size: 23px;
-    font-family: 'Raleway', sans-serif;
     cursor: pointer;
 }
+
+.response-container {
+    justify-content: center;
+    display: flex;
+}
+
+.response-text{
+    font-size: 25px;
+    color: green;
+    position: relative;
+}
+
+.cart-inner{
+    width: 100%;
+}
+
+
+.cart-table {
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.cart-image{
+    height: 80px;
+    width: 80px;
+}
+
+.img-td {
+    width: 90px;
+}
+
+.model-size-td{
+    width: 500px;
+}
+
+.size-td{
+    margin: 10px 0px 0px 0px;
+}
+
+.price-td{
+    text-align: right;
+    width: 400px;
+}
+
+.delete-td {
+    cursor: pointer;
+    text-align: right;
+}
+
+.delete-td:hover {
+    color: red;
+}
+
+.total-price-container{
+    width: 100%;
+    text-align: right;
+    margin: 15px 0px 0px 0px;
+}
+
+.total-price-text{
+    font-size: 25px;
+}
+
+.total-price{
+    font-size: 25px;
+    padding: 0px 65px 0px 0px;
+}
+
+.button-buy-container{
+    width: 100%;
+    text-align: right;
+    margin: 30px 0px 0px 0px;
+}
+
+.button-buy-btn{
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 40px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0px 20px 0px 20px;
+    margin: 0px 80px 0px 0px;
+    color: white;
+}
+
+.additional-text-container{
+    margin: 30px 0px 0px 0px;
+    width: 100%;
+    text-align: right;
+}
+
+.additional-text{
+    font-size: 20px;
+    color: red;
+}
+
 

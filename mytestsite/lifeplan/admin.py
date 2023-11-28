@@ -19,13 +19,22 @@ class StorageAdmin(admin.ModelAdmin):
     list_display = ("size", "amount", "product")
 
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ("client_username", "items_amount", "total_price")
+
+
 class ProductInOrderAdmin(admin.ModelAdmin):
-    list_display = ("order", "product")
+    list_display = ("order", "order_client_username", "product", "size_of_product")
+
+    def order_client_username(self, obj):
+        return obj.order.client_username
+
+    order_client_username.short_description = 'Client Username'
 
 
 admin.site.register(ProductInOrder, ProductInOrderAdmin)
 admin.site.register(Storage, StorageAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
 

@@ -1,18 +1,113 @@
 {% extends 'lifeplan/base.html'%}
+{% load static %}
 
 {% block content %}
 {% if not request.user.is_authenticated %}
-
-    {% if 'cart' in request.session %}
-        <h1>Your cart</h1>
-        <ul>
-            {% for item in request.session.cart %}
-                <li>{{ item.product }} - {{ item.size }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Ваша корзина пуста.</p>
-    {% endif %}
-
+    <div class="cart-inner">
+        {% if products_from_session %}
+            <table class="cart-table">
+                <tbody>
+                    {% for item in products_from_session %}
+                    <tr data-unique-key="{{item.product.model_name}}&{{item.size}}">
+                        <td class="img-td"><a href="{{ item.product.get_absolute_url }}"><img class="cart-image" src="{{ item.product.photo.url }}"></img></a></td>
+                        <td class="model-size-td">
+                            <a class="model-name-td">{{ item.product.model_name }}</a>
+                            <p class="size-td">size: {{ item.size }}</p>
+                        </td>
+                        <td class="price-td">{{ item.product.price }} kc</td>
+                        <td class="delete-td"><button type="button" data-authenticated="False" class="remove-from-cart" data-unique-key="{{item.product.model_name}}&{{item.size}}">X</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="total-price-container">
+                <a class="total-price-text">Total price:</a>
+                <a class="total-price">{{ total_price }} kc</a>
+            </div>
+            <div class="button-buy-container"><a class="button-buy-btn" onclick="addText()">Continue ></a></div>
+            <div class="additional-text-container"><a class="additional-text" ></a></div>
+        {% else %}
+            <p>There is nothing in your cart</p>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="cart-inner">
+        {% if all_products_in_current_cart %}
+        <table class="cart-table">
+            <tbody>
+                {% for product, size in all_products_in_current_cart %}
+                    <tr data-unique-key="{{product.model_name}}&{{size}}">
+                        <td class="img-td"><a href="{{ product.get_absolute_url }}"><img class="cart-image" src="{{ product.photo.url }}"></img></a></td>
+                        <td class="model-size-td">
+                            <a class="model-name-td">{{ product.model_name }}</a>
+                            <p class="size-td">size: {{ size }}</p>
+                        </td>
+                        <td class="price-td">{{ product.price }} kc</td>
+                        <td class="delete-td"><button type="button" class="remove-from-cart" data-authenticated="True" data-unique-key="{{product.model_name}}&{{size}}">X</button></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total-price-container">
+            <a class="total-price-text">Total price:</a>
+            <a class="total-price">{{ total_price }} kc</a>
+        </div>
+        <div class="button-buy-container"><a class="button-buy-btn" onclick="addText()">Continue ></a></div>
+        <div class="additional-text-container"><a class="additional-text"></a></div>
+        {% else %}
+            <p>There is nothing in your cart</p>
+        {% endif %}
+    </div>
 {% endif %}
+<script>
+    function addText() {
+        var container = document.querySelector(".additional-text");
+
+        if (!container.innerHTML.trim()) {
+            container.innerHTML = "Sorry, we will add the possibility to buy later";
+
+            setTimeout(function() {
+                container.innerHTML = "";
+            }, 3000);
+        }
+    }
+
+    $(document).ready(function() {
+        $('.remove-from-cart').click(function() {
+            var product_unique_key = $(this).data('unique-key');
+            sendDataToServer(product_unique_key);
+            $('tr[data-unique-key="'+ product_unique_key +'"]').remove();
+        });
+    });
+
+    function sendDataToServer(product_unique_key) {
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            url: '{% url 'remove_from_cart' %}',
+            type: 'POST',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {'product_unique_key': product_unique_key },
+            success: function(data) {
+                $(this).closest('tr').remove();
+                $('.total-price').html(data.message);
+            }
+        });
+    }
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
 {% endblock %}
+

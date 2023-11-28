@@ -15,5 +15,6 @@ urlpatterns = [
     path('category/<slug:category_slug>', SneakersCategory.as_view(), name='category'),
     path('cart/', cart, name='cart'),
     path('user_info/', user, name='user'),
-    path('handle_ajax_request', views.handle_ajax_request, name='handle_ajax_request')
+    path('handle_ajax_request', views.handle_ajax_request, name='handle_ajax_request'),
+    path('remove_from_cart', views.remove_from_cart, name='remove_from_cart')
 ]
