@@ -54,6 +54,19 @@
         {% endfor%}
         {% endblock %}
       </div>
+      <div class="list-pages">
+        <ul>
+          {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+              <li class="page-num page-num-selected">{{ p }}</li>
+            {% else %}
+              <li class="page-num">
+                <a href="?page={{ p }}">{{ p }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </main>
 
@@ -65,7 +78,6 @@
           <ul>
             <li>Be strong</li>
             <li>Be brave</li>
-            <li>Be cat</li>
           </ul>
         </div>
         <div class="page-footer-right">

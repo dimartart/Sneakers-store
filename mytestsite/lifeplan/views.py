@@ -20,6 +20,7 @@ menu = [
 
 # Create your views here.
 class MainPage(DataMixin, ListView):
+    paginate_by = 8
     model = Product
     template_name = 'lifeplan/base.html'
     context_object_name = 'products'
@@ -182,7 +183,6 @@ def handle_ajax_request(request):
 
     else:
         username = request.session.get('username')
-        print(username)
         user_order, created = Order.objects.get_or_create(client_username=username, is_paid=False)
         product = Product.objects.get(model_name=model_name)
         try:
