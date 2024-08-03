@@ -1,6 +1,6 @@
 **Sneakers Shop**
 
-The study project of an e-shop with sneakers. 
+The study project of an e-shop for sneakers. 
 It is full-stuck application which is deployed to the remote server and work 24/7. 
 You can look through the assortment of a various sneakers, check their descriptions and price, add sneakers to the cart and create accounts for saving the result of a choice.
 The link for the site: https://dimartart3.pythonanywhere.com/
