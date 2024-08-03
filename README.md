@@ -22,7 +22,7 @@ You are able to add products in the cart even if you didn’t logged. It is poss
 ![image](https://github.com/user-attachments/assets/e6924474-10f4-42d3-a894-a9a6334522d3)
 This is a schema of database for the website. Through the admin panel the owner of the store can easily manage the amount of products, their sizes and see all orders from the users.
 
-3.Deploy
+3.  Deploy
 The website is hosted on pythonanywhere.com
 All files of a project were just uploaded to the server without using docker technology. 
 Database was successfully migrated. 
